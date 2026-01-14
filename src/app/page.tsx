@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -106,9 +106,6 @@ export default function Dashboard() {
   const [selectedVideo, setSelectedVideo] = useState<string>('all');
   const [selectedMetric, setSelectedMetric] = useState<MetricType>('gainedViews');
   const [dateRange, setDateRange] = useState<{ from: string; to: string } | null>(null);
-
-  // Computed values for filtered data
-  }, [data, selectedSurah, selectedVideo, dateRange]);
 
   // Fetch data from Google Sheets API
   const fetchData = async (forceRefresh = false) => {
@@ -240,6 +237,23 @@ export default function Dashboard() {
 
     return true;
   });
+
+  // Calculate summary based on filtered data
+  const filteredSummary = useMemo(() => {
+    if (filteredData.length === 0) return null;
+
+    const totalGainedViews = filteredData.reduce((acc, curr) => acc + curr.gainedViews, 0);
+    const totalGainedLikes = filteredData.reduce((acc, curr) => acc + curr.gainedLikes, 0);
+    const totalGainedComments = filteredData.reduce((acc, curr) => acc + curr.gainedComments, 0);
+    const likeViewRatio = totalGainedViews > 0 ? (totalGainedLikes / totalGainedViews) * 100 : 0;
+
+    return {
+      totalGainedViews,
+      totalGainedLikes,
+      totalGainedComments,
+      likeViewRatio,
+    };
+  }, [filteredData]);
 
   // Group filtered data by date for trend chart
   const filteredGroupedData = (() => {
@@ -704,7 +718,7 @@ export default function Dashboard() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {videoSummaryData.map((video, index) => (
+                    {filteredVideoSummaryData.map((video, index) => (
                       <TableRow key={video.videoTitle} className={index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}>
                         <TableCell className="font-medium">
                           <div className="flex flex-col">
