@@ -16,11 +16,20 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "YouTube Analytics Dashboard",
-  description: "Modern YouTube analytics dashboard powered by Z.ai",
-  keywords: ["YouTube", "Analytics", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "AI development", "React"],
-  authors: [{ name: "Z.ai Team" }],
+  description: "Realtime youtube analytics dashboard",
+  keywords: [
+    "YouTube",
+    "Analytics",
+    "Next.js",
+    "TypeScript",
+    "Tailwind CSS",
+    "shadcn/ui",
+    "AI development",
+    "React",
+  ],
+  authors: [{ name: "Zohaib" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "https://res.cloudinary.com/dkhv1yqda/image/upload/v1780079677/f2ea1ded4d037633f687ee389a571086-youtube-icon-logo_ibuzwk.webp",
   },
 };
 
